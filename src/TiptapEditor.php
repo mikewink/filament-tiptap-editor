@@ -9,15 +9,18 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
+use FilamentTiptapEditor\Concerns\CanDisableStylesheet;
 use FilamentTiptapEditor\Concerns\CanStoreOutput;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Concerns\InteractsWithMenus;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
 class TiptapEditor extends Field
 {
     use CanStoreOutput;
+    use CanDisableStylesheet;
     use HasExtraAlpineAttributes;
     use HasExtraInputAttributes;
     use InteractsWithMedia;
@@ -28,8 +31,6 @@ class TiptapEditor extends Field
     protected string | Closure | null $maxContentWidth = null;
 
     protected string $profile = 'default';
-
-    protected ?bool $shouldDisableStylesheet = null;
 
     protected ?array $tools = [];
 
@@ -159,18 +160,6 @@ class TiptapEditor extends Field
         return $this->maxContentWidth
             ? $this->evaluate($this->maxContentWidth)
             : config('filament-tiptap-editor.max_content_width');
-    }
-
-    public function disableStylesheet(): static
-    {
-        $this->shouldDisableStylesheet = true;
-
-        return $this;
-    }
-
-    public function shouldDisableStylesheet(): bool
-    {
-        return $this->shouldDisableStylesheet ?? config('filament-tiptap-editor.disable_stylesheet');
     }
 
     public function getTools(): array
