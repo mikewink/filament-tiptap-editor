@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor;
 
 use Filament\Support\Concerns\EvaluatesClosures;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 abstract class TiptapBlock
@@ -51,14 +52,20 @@ abstract class TiptapBlock
         return [];
     }
 
-    public function getPreview(array | null $data = []): string
+    public function getPreview(array | null $data = [], Model | null $record = null): string
     {
-        return view($this->preview, $data)->render();
+        return view($this->preview, [
+            ...$data,
+            'record' => $record
+        ])->render();
     }
 
-    public function getRendered(array | null $data = []): string
+    public function getRendered(array | null $data = [], Model | null $record = null): string
     {
-        return view($this->rendered, $data)->render();
+        return view($this->rendered, [
+            ...$data,
+            'record' => $record
+        ])->render();
     }
 
     public function getIcon(): ?string

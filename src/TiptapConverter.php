@@ -5,6 +5,7 @@ namespace FilamentTiptapEditor;
 use FilamentTiptapEditor\Extensions\Extensions;
 use FilamentTiptapEditor\Extensions\Marks;
 use FilamentTiptapEditor\Extensions\Nodes;
+use Illuminate\Database\Eloquent\Model;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
 use Tiptap\Marks\Highlight;
@@ -24,6 +25,8 @@ class TiptapConverter
 
     protected ?array $blocks = null;
 
+    protected ?Model $record = null;
+
     public function getEditor(): Editor
     {
         return $this->editor ??= new Editor([
@@ -34,6 +37,13 @@ class TiptapConverter
     public function blocks(array $blocks): static
     {
         $this->blocks = $blocks;
+
+        return $this;
+    }
+
+    public function record(Model | null $record): static
+    {
+        $this->record = $record;
 
         return $this;
     }
@@ -69,7 +79,10 @@ class TiptapConverter
             new Nodes\Vimeo(),
             new Nodes\YouTube(),
             new Nodes\Video(),
-            new Nodes\TiptapBlock(['blocks' => $this->blocks]),
+            new Nodes\TiptapBlock([
+                'blocks' => $this->blocks,
+                'record' => $this->record
+            ]),
             new Nodes\Hurdle(),
             new Table(),
             new TableHeader(),

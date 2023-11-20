@@ -164,7 +164,7 @@ class TiptapEditor extends Field
             if ($block['type'] === 'tiptapBlock') {
                 $instance = $this->getBlock($block['attrs']['type']);
                 $content[$k]['attrs']['statePath'] = $component->getStatePath();
-                $content[$k]['attrs']['preview'] = $instance->getPreview($block['attrs']['data']);
+                $content[$k]['attrs']['preview'] = $instance->getPreview($block['attrs']['data'], $component->getRecord());
                 $content[$k]['attrs']['label'] = $instance->getLabel();
             } elseif (array_key_exists('content', $block)) {
                 $content[$k] = $this->renderBlockPreviews($block, $component);
@@ -209,7 +209,7 @@ class TiptapEditor extends Field
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: [],
-                    preview: $block->getPreview(),
+                    preview: $block->getPreview(record: $component->getRecord()),
                     label: $block->getLabel(),
                 );
             });
@@ -246,7 +246,7 @@ class TiptapEditor extends Field
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: $data,
-                    preview: $block->getPreview($data),
+                    preview: $block->getPreview($data, $component->getRecord()),
                     label: $block->getLabel(),
                     coordinates: $arguments['coordinates'] ?? [],
                 );
@@ -285,7 +285,7 @@ class TiptapEditor extends Field
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: $data,
-                    preview: $block->getPreview($data),
+                    preview: $block->getPreview($data, $component->getRecord()),
                     label: $block->getLabel(),
                 );
             });

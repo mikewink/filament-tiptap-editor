@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor\Extensions\Nodes;
 
 use FilamentTiptapEditor\TiptapEditor;
+use Illuminate\Database\Eloquent\Model;
 use Tiptap\Core\Node;
 use Tiptap\Utils\HTML;
 
@@ -71,7 +72,10 @@ class TiptapBlock extends Node
     public function renderHTML($node, $HTMLAttributes = []): array
     {
         $blocks = $this->getBlocks();
-        $view = view($blocks[$node->attrs->type]->rendered, json_decode(json_encode($node->attrs->data), associative: true))->render();
+        $view = $blocks[$node->attrs->type]->getRendered(
+            json_decode(json_encode($node->attrs->data), associative: true),
+            $this->options['record'] ?? null
+        );
 
         return [
             'tiptap-block',
