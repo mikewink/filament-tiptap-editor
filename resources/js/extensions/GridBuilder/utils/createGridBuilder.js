@@ -1,16 +1,16 @@
 import { createBuilderColumn } from "./createBuilderColumn";
 import { getGridBuilderNodeTypes } from "./getGridBuilderNodeTypes";
 
-export function createGridBuilder(schema, colsCount, type, stackAt, asymmetricLeft, asymmetricRight, colContent) {
-  const types = getGridBuilderNodeTypes(schema);
+export function createGridBuilder(schema, colsCount, type, stackAt, leftSpan, rightSpan, colContent = null) {
+  const { gridBuilder, builderColumn } = getGridBuilderNodeTypes(schema);
   const cols = [];
 
   if (type === 'asymmetric') {
-    cols.push(createBuilderColumn(types.builderColumn, asymmetricLeft, colContent));
-    cols.push(createBuilderColumn(types.builderColumn, asymmetricRight, colContent));
+    cols.push(createBuilderColumn(builderColumn, leftSpan, colContent));
+    cols.push(createBuilderColumn(builderColumn, rightSpan, colContent));
   } else {
     for (let index = 0; index < colsCount; index += 1) {
-      const col = createBuilderColumn(types.builderColumn, null, colContent);
+      const col = createBuilderColumn(builderColumn, 1, colContent);
 
       if (col) {
         cols.push(col);
@@ -18,5 +18,5 @@ export function createGridBuilder(schema, colsCount, type, stackAt, asymmetricLe
     }
   }
 
-  return types.gridBuilder.createChecked({ 'data-cols': colsCount, 'data-type': type, 'data-stack-at': stackAt }, cols);
+  return gridBuilder.createChecked({ 'data-cols': colsCount, 'data-type': type, 'data-stack-at': stackAt }, cols);
 }

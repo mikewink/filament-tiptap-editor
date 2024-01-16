@@ -55,7 +55,7 @@ export const GridBuilder = Node.create({
     return [
       {
         tag: "div",
-        getAttrs: (node) => node.classList.contains("filament-tiptap-grid-builder") && null,
+        getAttrs: (node) => (node.classList.contains("filament-tiptap-grid-builder") && !node.classList.contains("filament-tiptap-grid-builder__column")) && null,
       },
     ];
   },
@@ -67,9 +67,9 @@ export const GridBuilder = Node.create({
   addCommands() {
     return {
       insertGridBuilder:
-        ({ cols = 3, type = "responsive", stackAt, asymmetricLeft = null, asymmetricRight = null } = {}) =>
+        ({ cols = 3, type = "responsive", stackAt, leftSpan = null, rightSpan = null } = {}) =>
         ({ tr, dispatch, editor }) => {
-          const node = createGridBuilder(editor.schema, cols, type, stackAt,asymmetricLeft, asymmetricRight);
+          const node = createGridBuilder(editor.schema, cols, type, stackAt, leftSpan, rightSpan);
 
           if (dispatch) {
             const offset = tr.selection.anchor + 1;

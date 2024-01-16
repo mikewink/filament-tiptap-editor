@@ -1,6 +1,7 @@
 @props([
     'statePath' => null,
     'tools' => [],
+    'editor' => null,
 ])
 
 @if (in_array('table', $tools))

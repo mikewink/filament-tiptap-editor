@@ -4,6 +4,7 @@ return [
     'heading' => 'Grid Builder',
     'labels' => [
         'submit' => 'Insert Grid',
+        'cancel' => 'Cancel',
         'columns' => 'Columns',
         'stack_at' => 'Stack At',
         'asymmetric' => 'Asymmetric',

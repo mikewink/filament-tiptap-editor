@@ -8,7 +8,7 @@
     icon="source"
     x-data="{
         openModal() {
-            $wire.dispatchFormEvent('tiptap::setSourceContent', '{{ $statePath }}', { html: this.editor().getHTML() });
+            $wire.$dispatch('pounce', { component: 'source-pounce', arguments: { 'statePath': '{{ $statePath }}', html: this.editor().getHTML() } })
         }
     }"
 />

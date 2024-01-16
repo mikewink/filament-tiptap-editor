@@ -56,7 +56,7 @@ class GridBuilderAction extends Action
                         ->default(false)
                         ->reactive()
                         ->columnSpanFull(),
-                    TextInput::make('asymmetric_left')
+                    TextInput::make('left_span')
                         ->label(trans('filament-tiptap-editor::grid-modal.labels.asymmetric_left'))
                         ->required()
                         ->reactive()
@@ -64,7 +64,7 @@ class GridBuilderAction extends Action
                         ->maxValue(12)
                         ->numeric()
                         ->visible(fn (callable $get) => $get('asymmetric')),
-                    TextInput::make('asymmetric_right')
+                    TextInput::make('right_span')
                         ->label(trans('filament-tiptap-editor::grid-modal.labels.asymmetric_right'))
                         ->required()
                         ->reactive()
@@ -84,6 +84,7 @@ class GridBuilderAction extends Action
         });
 
         $this->action(function (TiptapEditor $component, $data) {
+            ray($data);
             $component->getLivewire()->dispatch(
                 'insert-content',
                 type: 'grid',

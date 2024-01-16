@@ -8,6 +8,7 @@ return [
     'buttons' => [
         'cancel' => 'Cancel',
         'insert' => 'Insert',
+        'update' => 'Update',
     ],
     'labels' => [
         'file' => 'File',

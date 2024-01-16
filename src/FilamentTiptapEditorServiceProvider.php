@@ -2,12 +2,20 @@
 
 namespace FilamentTiptapEditor;
 
+use Filament\Facades\Filament;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use FilamentTiptapEditor\Commands\MakeBlockCommand;
+use FilamentTiptapEditor\Livewire\GridBuilderPounce;
+use FilamentTiptapEditor\Livewire\LinkPounce;
+use FilamentTiptapEditor\Livewire\MediaPounce;
+use FilamentTiptapEditor\Livewire\OembedPounce;
+use FilamentTiptapEditor\Livewire\SourcePounce;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Vite;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -46,5 +54,23 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
         }
 
         FilamentAsset::register($assets, 'awcodes/tiptap-editor');
+    }
+
+    public function packageBooted(): void
+    {
+        $panel = Filament::getCurrentPanel();
+
+        if ($panel && ! $panel->hasPlugin('pouncePlugin')) {
+            $panel->renderHook(
+                name: 'panels::body.end',
+                hook: fn (): string => Blade::render("@livewire('pounce')"),
+            );
+        }
+
+        Livewire::component('link-pounce', LinkPounce::class);
+        Livewire::component('media-pounce', MediaPounce::class);
+        Livewire::component('grid-builder-pounce', GridBuilderPounce::class);
+        Livewire::component('oembed-pounce', OembedPounce::class);
+        Livewire::component('source-pounce', SourcePounce::class);
     }
 }

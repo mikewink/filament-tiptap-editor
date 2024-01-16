@@ -19,16 +19,16 @@
             let link = this.editor().getAttributes('link');
             let arguments = {
                 href: link.href || '',
-                id: link.id || null,
+                linkId: link.id || null,
                 target: link.target || null,
                 hreflang: link.hreflang || null,
                 rel: link.rel || null,
                 referrerpolicy: link.referrerpolicy || null,
-                as_button: link.as_button || null,
-                button_theme: link.button_theme || null,
+                asButton: link.as_button || null,
+                buttonTheme: link.button_theme || null,
+                statePath: '{{ $statePath }}',
             };
-
-            $wire.dispatchFormEvent('tiptap::setLinkContent', '{{ $statePath }}', arguments);
+            $wire.dispatch('pounce', { component: 'link-pounce', arguments: arguments });
         }
     }"
 />

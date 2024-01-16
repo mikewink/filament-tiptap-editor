@@ -499,25 +499,24 @@ export default function tiptap({
             this.updateEditorContent(event.detail.source);
         },
         insertGridBuilder(event) {
-            let grid = event.detail.data;
-            let type = 'responsive';
-            const asymmetricLeft = parseInt(grid.asymmetric_left) ?? null;
-            const asymmetricRight = parseInt(grid.asymmetric_right) ?? null;
+            let { columns, stack_at, asymmetric, left_span, right_span } = event.detail.data;
 
-            if (grid.fixed) {
+            let type = 'responsive';
+
+            if (stack_at === 'none') {
                 type = 'fixed';
             }
 
-            if (grid.asymmetric) {
+            if (asymmetric) {
                 type = 'asymmetric';
             }
 
             this.editor().chain().focus().insertGridBuilder({
-                cols: grid.columns,
-                type,
-                stackAt: grid.stack_at,
-                asymmetricLeft,
-                asymmetricRight
+                cols: columns,
+                type: type,
+                stackAt: stack_at,
+                leftSpan: left_span ? parseInt(left_span) : null,
+                rightSpan: right_span ? parseInt(right_span) : null
             }).run();
         },
         insertBlock(event) {

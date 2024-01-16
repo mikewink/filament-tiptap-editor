@@ -1,12 +1,13 @@
 @props([
     'statePath' => null,
+    'editor' => null,
 ])
 
 @php
-    if (str(config('filament-tiptap-editor.media_action'))->contains('\\')) {
+    if (str(config('filament-tiptap-editor.media_action'))->contains('\\Curator')) {
         $action = "\$wire.dispatchFormEvent('tiptap::setMediaContent', '" . $statePath . "', arguments);";
     } else {
-        $action = "this.\$dispatch('open-modal', {id: '" . config('filament-tiptap-editor.media_action') . "', statePath: '" . $statePath . "'}, arguments)";
+        $action = "\$wire.\$dispatch('pounce', { component: 'media-pounce', arguments })";
     }
 @endphp
 
@@ -20,12 +21,17 @@
             let media = this.editor().getAttributes('image');
             let arguments = {
                 type: 'media',
-                src: media.src || '',
-                alt: media.alt || '',
-                title: media.title || '',
-                width: media.width || '',
-                height: media.height || '',
-                lazy: media.lazy || false,
+                src: media.src || null,
+                alt: media.alt || null,
+                title: media.title || null,
+                width: media.width || null,
+                height: media.height || null,
+                lazyLoad: media.lazy || false,
+                statePath: '{{ $statePath }}',
+                disk: '{{ $editor->getDisk() }}',
+                directory: '{{ $editor->getDirectory() }}',
+                acceptedFileTypes: {{ Js::from($editor->getAcceptedFileTypes()) }},
+                maxFileSize: {{ $editor->getMaxFileSize() }},
             };
 
             {{ $action }}

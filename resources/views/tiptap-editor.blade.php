@@ -66,15 +66,15 @@
                         <div class="tiptap-toolbar text-gray-800 border-b border-gray-950/10 bg-gray-50 divide-x divide-gray-950/10 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:text-gray-300 dark:border-white/20 dark:bg-gray-950 dark:divide-white/20">
 
                             <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
-                                <x-dynamic-component component="filament-tiptap-editor::tools.paragraph" :state-path="$statePath" />
+                                <x-dynamic-component component="filament-tiptap-editor::tools.paragraph" :state-path="$statePath" :editor="$field" />
                                 @foreach ($tools as $tool)
                                     @if ($tool === '|')
                                         <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
                                     @elseif (is_array($tool))
-                                        <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
+                                        <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" :editor="$field"/>
                                     @elseif ($tool === 'blocks')
                                         @if ($blocks && $shouldSupportBlocks)
-                                            <x-filament-tiptap-editor::tools.blocks :blocks="$blocks" :state-path="$statePath" />
+                                            <x-filament-tiptap-editor::tools.blocks :blocks="$blocks" :state-path="$statePath" :editor="$field"/>
                                         @endif
                                     @else
                                         <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" :editor="$field" />
@@ -93,9 +93,9 @@
                     @endif
 
                     @if (! $isBubbleMenusDisabled())
-                        <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
-                        <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
-                        <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                        <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools" :editor="$field" />
+                        <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools" :editor="$field" />
+                        <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools" :editor="$field" />
                     @endif
 
                     @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))

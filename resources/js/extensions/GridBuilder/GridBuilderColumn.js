@@ -17,14 +17,18 @@ export const GridBuilderColumn = Node.create({
       'data-col-span': {
         default: 1,
         parseHTML: (element) => element.getAttribute("data-col-span"),
+        renderHTML: (attributes) => {
+          return {
+            'data-col-span': attributes['data-col-span'] ?? 1,
+          }
+        }
       },
       'style': {
         default: null,
         parseHTML: (element) => element.getAttribute("style"),
         renderHTML: (attributes) => {
-          let colspan = attributes['data-col-span'];
           return {
-            style: `grid-column: span ${colspan};`
+            style: `grid-column: span ${attributes['data-col-span'] ?? 1};`
           }
         }
       }
