@@ -8,11 +8,7 @@ use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
-use FilamentTiptapEditor\Actions\GridBuilderAction;
-use FilamentTiptapEditor\Actions\OEmbedAction;
-use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Concerns\CanStoreOutput;
-use FilamentTiptapEditor\Concerns\HasCustomActions;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Concerns\InteractsWithMenus;
 use Illuminate\Support\Arr;
@@ -23,7 +19,6 @@ use Livewire\Component;
 class TiptapEditor extends Field
 {
     use CanStoreOutput;
-    use HasCustomActions;
     use HasExtraAlpineAttributes;
     use HasExtraInputAttributes;
     use HasPlaceholder;
@@ -154,11 +149,6 @@ class TiptapEditor extends Field
         ]);
 
         $this->registerActions([
-            SourceAction::make(),
-            OEmbedAction::make(),
-            GridBuilderAction::make(),
-            fn (): Action => $this->getLinkAction(),
-            fn (): Action => $this->getMediaAction(),
             fn (): Action => $this->getInsertBlockAction(),
             fn (): Action => $this->getUpdateBlockAction(),
         ]);
@@ -465,7 +455,6 @@ class TiptapEditor extends Field
     {
         return $this->shouldShowMergeTagsInBlocksPanel;
     }
-
 
     public function gridLayouts(array $layouts): static
     {

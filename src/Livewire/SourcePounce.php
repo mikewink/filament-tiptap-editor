@@ -4,21 +4,12 @@ namespace FilamentTiptapEditor\Livewire;
 
 use Awcodes\Pounce\Enums\MaxWidth;
 use Awcodes\Pounce\PounceComponent;
-use Carbon\Carbon;
-use Carbon\CarbonInterval;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Illuminate\Contracts\View\View;
 
 class SourcePounce extends PounceComponent implements HasActions, HasForms
@@ -71,9 +62,13 @@ class SourcePounce extends PounceComponent implements HasActions, HasForms
         $this->close();
     }
 
+    public static function destroyOnClose(): bool
+    {
+        return true;
+    }
+
     public function close(): void
     {
-        $this->reset();
         $this->dispatch('unPounce');
     }
 
