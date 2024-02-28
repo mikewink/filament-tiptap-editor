@@ -98,7 +98,7 @@ class TiptapEditor extends Field
             }
 
             if ($this->expectsJSON()) {
-                if (!is_array($state)) {
+                if (! is_array($state)) {
                     $state = tiptap_converter()->asJSON($state, decoded: true);
                 }
 
@@ -168,10 +168,11 @@ class TiptapEditor extends Field
         ]);
     }
 
-    public function getCustomListener(string $name, TiptapEditor $component, string $statePath, array $arguments = []): void {
+    public function getCustomListener(string $name, TiptapEditor $component, string $statePath, array $arguments = []): void
+    {
         if ($this->verifyListener($component, $statePath)) {
             return;
-        };
+        }
 
         $component
             ->getLivewire()
@@ -233,7 +234,7 @@ class TiptapEditor extends Field
     public function getInsertBlockAction(): Action
     {
         return Action::make('insertBlock')
-            ->form(function(TiptapEditor $component, Component $livewire): ?array {
+            ->form(function (TiptapEditor $component, Component $livewire): ?array {
                 $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
 
                 $block = $component->getBlock($arguments['type']);
@@ -244,7 +245,7 @@ class TiptapEditor extends Field
 
                 return $block->getFormSchema();
             })
-            ->modalHeading(function(TiptapEditor $component, Component $livewire): ?string {
+            ->modalHeading(function (TiptapEditor $component, Component $livewire): ?string {
                 $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
 
                 if (isset($arguments['type'])) {
@@ -259,7 +260,7 @@ class TiptapEditor extends Field
 
                 return trans('filament-tiptap-editor::editor.blocks.insert');
             })
-            ->modalWidth(function(TiptapEditor $component, Component $livewire): ?string {
+            ->modalWidth(function (TiptapEditor $component, Component $livewire): ?string {
                 $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
 
                 if (isset($arguments['type'])) {
@@ -274,7 +275,7 @@ class TiptapEditor extends Field
 
                 return 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, Component $livewire): bool {
+            ->slideOver(function (TiptapEditor $component, Component $livewire): bool {
                 $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
 
                 if (isset($arguments['type'])) {
@@ -309,19 +310,19 @@ class TiptapEditor extends Field
         return Action::make('updateBlock')
             ->fillForm(fn (array $arguments) => $arguments['data'])
             ->modalHeading(fn () => trans('filament-tiptap-editor::editor.blocks.update'))
-            ->modalWidth(function(TiptapEditor $component, Component $livewire): string {
+            ->modalWidth(function (TiptapEditor $component, Component $livewire): string {
                 $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
 
                 return isset($arguments['type'])
                     ? $component->getBlock($arguments['type'])->getModalWidth()
                     : 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, Component $livewire): string {
+            ->slideOver(function (TiptapEditor $component, Component $livewire): string {
                 $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
 
                 return isset($arguments['type']) && $component->getBlock($arguments['type'])->isSlideOver();
             })
-            ->form(function(TiptapEditor $component, Component $livewire): array {
+            ->form(function (TiptapEditor $component, Component $livewire): array {
                 $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
 
                 return $component
@@ -399,6 +400,7 @@ class TiptapEditor extends Field
     {
         return collect($this->blocks)->mapWithKeys(function ($block, $key) {
             $b = app($block);
+
             return [$b->getIdentifier() => $b];
         })->toArray();
     }
@@ -469,7 +471,6 @@ class TiptapEditor extends Field
     {
         return $this->shouldShowMergeTagsInBlocksPanel;
     }
-
 
     public function gridLayouts(array $layouts): static
     {
